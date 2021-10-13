@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MovieController;
 use App\Http\Controllers\PassportAuthController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RatingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,4 +27,7 @@ Route::post('login', [PassportAuthController::class, 'login']);
 // });
 Route::middleware('auth:api')->group(function () {
     Route::resource('posts', PostController::class);
+    Route::resource('movies', MovieController::class);
+    Route::resource('categorys', CategoryController::class);
+    Route::resource('ratings', RatingController::class);
 });

@@ -18,6 +18,7 @@ class PassportAuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:8',
         ]);
+        
 
         $user = User::create([
             'name' => $request->name,
