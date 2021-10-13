@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
- 
+use Auth;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = auth()->user()->posts;
+ 
+
+        // $posts = auth()->user()->posts;
+        $posts = Auth::user()->posts;
 
         return response()->json([
             'success' => true,
@@ -20,7 +23,8 @@ class PostController extends Controller
 
     public function show($id)
     {
-        $post = auth()->user()->posts()->find($id);
+
+        $post = Auth::user()->posts()->find($id);
 
         if (!$post) {
             return response()->json([
@@ -46,7 +50,7 @@ class PostController extends Controller
         $post->title = $request->title;
         $post->description = $request->description;
 
-        if (auth()->user()->posts()->save($post))
+        if (Auth::user()->posts()->save($post))
             return response()->json([
                 'success' => true,
                 'data' => $post->toArray()
@@ -60,7 +64,7 @@ class PostController extends Controller
 
     public function update(Request $request, $id)
     {
-        $post = auth()->user()->posts()->find($id);
+        $post = Auth::user()->posts()->find($id);
 
         if (!$post) {
             return response()->json([
@@ -84,7 +88,7 @@ class PostController extends Controller
 
     public function destroy($id)
     {
-        $post = auth()->user()->posts()->find($id);
+        $post = Auth::user()->posts()->find($id);
 
         if (!$post) {
             return response()->json([
