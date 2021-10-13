@@ -21,10 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('register', [PassportAuthController::class, 'register']);
 Route::post('login', [PassportAuthController::class, 'login']);
-
-// Route::get('hello', function(){
-//     return 'hello';
-// });
+ 
 Route::middleware('auth:api')->group(function () {
     Route::resource('posts', PostController::class);
     Route::resource('movies', MovieController::class);

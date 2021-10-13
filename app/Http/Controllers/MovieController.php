@@ -15,8 +15,19 @@ class MovieController extends Controller
      */
     public function index()
     {
-         $movies = Auth::user()->movies;
+        //  $movies = Auth::user()->movies;
+        // $movies =
+        // Movie::with('ratings', 'category')
+        //     ->withAvg('ratings', 'rating')
+        //     ->orderByDesc('ratings_avg_rating')
+        //     ->take(100)
+        //     ->get();
 
+        $movies = Movie::all()->sortByDesc(function ($movie) {
+            return $movie->ratings->avg('rating');
+        })->take(100);
+
+        
         return response()->json([
             'success' => true,
             'data' => $movies
