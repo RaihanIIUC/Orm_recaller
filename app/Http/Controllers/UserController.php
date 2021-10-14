@@ -13,8 +13,16 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
+   public function index(){
 
+    $data['user'] = DB::table('users')->lazyById();
+
+    $data['AllUserEmail'] = DB::table('users')->pluck('email');
+
+
+
+    return response()->json([$data],200);
+   }
     /**
      * Show the form for creating a new resource.
      *
