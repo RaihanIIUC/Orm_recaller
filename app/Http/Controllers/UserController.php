@@ -13,16 +13,72 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-   public function index(){
+    public function index()
+    {
 
-    $data['user'] = DB::table('users')->lazyById();
+        $data['group by data'] = DB::table('posts')
+                                         ->groupBy('id')
+                                         ->having('user_id','<', 9)
+                                         ->lazyById();
+   
+        $data['where array '] = DB::table('ratings')
+                                  ->where([
+                                      ['rating' ,'=', 10 ],
+                                      ['movie_id','<=',500],
+                                  ])
+                                  ->lazyById();
+        $data['movie name '] = DB::table('movies')
+                                         ->where('title','like','%U%')
+                                         ->get();
 
-    $data['AllUserEmail'] = DB::table('users')->pluck('email');
+        $data['rates more than 5 '] = DB::table('ratings')
+                                        ->where('rating' ,'>=' , 5)
+                                         ->lazyById();
 
 
 
-    return response()->json([$data],200);
-   }
+        $first = DB::table('users')->where('id',1);
+        $data['union on user'] = DB::table('users')->where('id',10)
+                                                   ->union($first)
+                                                   ->get();
+
+         $data['user and post cross product'] = DB::table('posts')
+                                                   ->crossJoin('users')
+                                                   ->get();
+
+        $data['user post data using right join'] = DB::table('users')
+        ->rightJoin('posts', 'users.id', '=', 'posts.user_id')
+        ->get();
+        
+        $data['user post data using left join'] = DB::table('users')
+                                                 ->leftJoin('posts','users.id','=','posts.user_id')
+                                                  ->get();
+   
+
+             $data['Table Joining'] = DB::table('users')
+                                ->join('posts','users.id' ,'=','posts.user_id')
+                                ->select('users.*','posts.title')->lazyById();
+
+        $data['post data list'] = DB::table('posts')->lazyById()->pluck('user_id','title');
+         $data['random user by id '] =
+        DB::table('users')
+            ->inRandomOrder()
+            ->pluck('id')
+            ->first();
+   
+
+        $data['VisitorRegistered'] = DB::table('users')->count();
+        $data['ALlUserNameWithEmail'] =DB::table('users')->pluck('email','name');
+        $data['AllUserEmail'] = DB::table('users')->pluck('email');
+
+
+        $data['user'] = DB::table('users')->lazyById();
+
+
+
+
+        return response()->json([$data], 200);
+    }
     /**
      * Show the form for creating a new resource.
      *
