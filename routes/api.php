@@ -6,6 +6,7 @@ use App\Http\Controllers\PassportAuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,5 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('doctors', UserController::class);
 
 });
+
+Route::resource('profile',UserProfileController::class);
