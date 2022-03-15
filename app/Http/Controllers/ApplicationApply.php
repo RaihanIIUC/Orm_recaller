@@ -26,6 +26,7 @@ class ApplicationApply extends Controller
     public function create()
     {
         //
+
     }
 
     /**
